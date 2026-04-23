@@ -1,0 +1,127 @@
+.analytics-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.analytics-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.period-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.period-tab {
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.period-tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+.period-tab:hover:not(.active) {
+  color: var(--text-primary);
+}
+
+.analytics-error {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+  font-size: 0.85rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.chart-card {
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart-card.large {
+  /* default */
+}
+
+.chart-card.small {
+  /* smaller column */
+}
+
+.chart-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.chart-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.chart-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chart-icon.primary { background: rgba(139, 92, 246, 0.15); color: var(--primary); }
+.chart-icon.secondary { background: rgba(6, 182, 212, 0.15); color: var(--secondary); }
+.chart-icon.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+
+.chart-card-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.chart-card-header p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.chart-body-area {
+  flex: 1;
+}
+
+.chart-loading {
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+  .analytics-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

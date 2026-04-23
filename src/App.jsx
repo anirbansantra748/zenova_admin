@@ -1,31 +1,52 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/Users/UserManagement';
+import Analytics from './pages/Analytics/Analytics';
+import Notifications from './pages/Notifications/Notifications';
+import Gamification from './pages/Gamification/Gamification';
+import AICenter from './pages/AICenter/AICenter';
+import Roles from './pages/Roles/Roles';
+import SystemHealth from './pages/SystemHealth/SystemHealth';
+import AuditLogs from './pages/AuditLogs/AuditLogs';
 
-// Placeholder Pages (Will be expanded)
-const Analytics = () => <div className="animate-fade-in"><h1>Analytics Center</h1><p>Coming soon...</p></div>;
-const RolesPermissions = () => <div className="animate-fade-in"><h1>Roles & Permissions</h1><p>Coming soon...</p></div>;
-const Notifications = () => <div className="animate-fade-in"><h1>Notification Management</h1><p>Coming soon...</p></div>;
-const Gamification = () => <div className="animate-fade-in"><h1>Gamification & Quests</h1><p>Coming soon...</p></div>;
-const AICenter = () => <div className="animate-fade-in"><h1>AI & Chat Monitoring</h1><p>Coming soon...</p></div>;
-const SystemHealth = () => <div className="animate-fade-in"><h1>System Health & Logs</h1><p>Coming soon...</p></div>;
+// Auth guard — redirect to /login if no token
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('zenova_admin_token');
+  return token ? children : <Navigate to="/login" replace />;
+};
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        {/* Public */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="users" element={<UserManagement />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="roles" element={<RolesPermissions />} />
+          <Route path="dashboard"     element={<Dashboard />} />
+          <Route path="users"         element={<UserManagement />} />
+          <Route path="analytics"     element={<Analytics />} />
           <Route path="notifications" element={<Notifications />} />
-          <Route path="gamification" element={<Gamification />} />
-          <Route path="ai" element={<AICenter />} />
-          <Route path="system" element={<SystemHealth />} />
+          <Route path="gamification"  element={<Gamification />} />
+          <Route path="ai"            element={<AICenter />} />
+          <Route path="roles"         element={<Roles />} />
+          <Route path="system"        element={<SystemHealth />} />
+          <Route path="audit-logs"    element={<AuditLogs />} />
         </Route>
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );

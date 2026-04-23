@@ -1,0 +1,90 @@
+.audit-page {
+  padding: 0;
+}
+
+.audit-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  padding: 0;
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 800px;
+}
+
+.audit-table th {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.audit-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+
+.audit-table tr:last-child td {
+  border-bottom: none;
+}
+
+.audit-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.time-cell, .admin-cell, .target-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.cell-icon {
+  opacity: 0.7;
+}
+
+.action-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: rgba(6, 182, 212, 0.15);
+  color: #06b6d4;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.details-cell {
+  max-width: 300px;
+}
+
+.json-details {
+  margin: 0;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  max-height: 100px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.audit-loading, .audit-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,187 @@
+.gamification-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.eco-card {
+  border-radius: 14px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.eco-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eco-icon.primary  { background: rgba(139,92,246,0.15); color: var(--primary); }
+.eco-icon.success  { background: rgba(16,185,129,0.15); color: var(--success); }
+.eco-icon.warning  { background: rgba(245,158,11,0.15); color: var(--warning); }
+.eco-icon.secondary{ background: rgba(6,182,212,0.15);  color: var(--secondary); }
+
+.eco-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.eco-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 20px 24px 12px;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.earners-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 24px 20px;
+}
+
+.earner-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.earner-row:last-child { border-bottom: none; }
+
+.earner-rank {
+  width: 28px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.earner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.earner-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.earner-rank-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.earner-coins {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--warning);
+}
+
+/* Quests table */
+.quests-table-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.game-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.game-table th {
+  padding: 10px 24px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.game-table td {
+  padding: 14px 24px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.game-table tr:last-child td { border-bottom: none; }
+
+.quest-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.quest-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.reward-val {
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.toggle-btn:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.game-loading, .game-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  .eco-grid { grid-template-columns: 1fr 1fr; }
+}

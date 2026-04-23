@@ -1,4 +1,5 @@
-import { Outlet, NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -10,8 +11,10 @@ import {
   Settings, 
   LogOut,
   Search,
-  ChevronRight
+  ChevronRight,
+  ClipboardList
 } from 'lucide-react';
+import adminApi from '../../utils/api';
 import './Layout.css';
 
 const SidebarLink = ({ to, icon: Icon, label }) => (
@@ -26,6 +29,26 @@ const SidebarLink = ({ to, icon: Icon, label }) => (
 );
 
 const Layout = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await adminApi.getMe();
+        setUser(res.data?.user || res.data);
+        localStorage.setItem('zenova_admin_roles', JSON.stringify(res.data?.user?.roles || res.data?.roles || []));
+      } catch (err) {
+        console.error('Failed to fetch user', err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('zenova_admin_token');
+    navigate('/login');
+  };
   return (
     <div className="layout-container">
       {/* Sidebar */}
@@ -53,12 +76,13 @@ const Layout = () => {
           <div className="nav-group">
             <p className="group-title">SYSTEM</p>
             <SidebarLink to="/roles" icon={ShieldCheck} label="Access Control" />
+            <SidebarLink to="/audit-logs" icon={ClipboardList} label="Audit Logs" />
             <SidebarLink to="/system" icon={Settings} label="System Health" />
           </div>
         </nav>
 
         <div className="sidebar-footer">
-          <button className="logout-btn">
+          <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={20} />
             <span>Sign Out</span>
           </button>
@@ -76,10 +100,10 @@ const Layout = () => {
           <div className="topbar-actions">
             <div className="user-profile">
               <div className="user-info">
-                <span className="user-name">Admin User</span>
-                <span className="user-role">Super Administrator</span>
+                <span className="user-name">{user?.full_name || 'Admin User'}</span>
+                <span className="user-role">{(user?.roles || ['Super Administrator']).join(', ')}</span>
               </div>
-              <div className="user-avatar">AD</div>
+              <div className="user-avatar">{(user?.full_name || 'A').charAt(0).toUpperCase()}</div>
             </div>
           </div>
         </header>
