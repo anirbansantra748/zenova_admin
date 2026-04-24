@@ -29,10 +29,20 @@ const UserDetailPanel = ({ userId, onClose }) => {
           adminApi.aiUserThreads(userId, 10),
         ]);
 
-        if (profRes.status === 'fulfilled') setProfile(profRes.value?.data);
-        if (statsRes.status === 'fulfilled') setStats(statsRes.value?.data);
-        if (actRes.status === 'fulfilled') setActivity(actRes.value?.data?.events || actRes.value?.data || []);
-        if (threadRes.status === 'fulfilled') setThreads(threadRes.value?.data?.threads || threadRes.value?.data || []);
+        if (profRes.status === 'fulfilled') {
+          const d = profRes.value?.data;
+          setProfile(d?.user || d);
+        }
+        if (statsRes.status === 'fulfilled') {
+          const d = statsRes.value?.data;
+          setStats(d?.stats || d);
+        }
+        if (actRes.status === 'fulfilled') {
+          setActivity(actRes.value?.data?.events || actRes.value?.data || []);
+        }
+        if (threadRes.status === 'fulfilled') {
+          setThreads(threadRes.value?.data?.threads || threadRes.value?.data || []);
+        }
       } catch (err) {
         setError('Failed to load user details.');
       }
@@ -61,7 +71,7 @@ const UserDetailPanel = ({ userId, onClose }) => {
                 <p>{profile?.email || profile?.phone || 'No contact info'}</p>
                 <div className="detail-badges">
                   {(profile?.roles || []).map(r => (
-                    <span key={r} className="role-badge">{r}</span>
+                    <span key={r.id || r._id || r} className="role-badge">{r.name || r}</span>
                   ))}
                   <span className={`status-pill ${profile?.is_banned ? 'banned' : 'active'}`}>
                     {profile?.is_banned ? 'Banned' : 'Active'}
@@ -87,15 +97,15 @@ const UserDetailPanel = ({ userId, onClose }) => {
                 </div>
                 <div className="detail-item">
                   <label>Level</label>
-                  <span>Lv. {profile?.level || stats?.level || 0}</span>
+                  <span>Lv. {stats?.level || profile?.gamification?.level || profile?.level || 1}</span>
                 </div>
                 <div className="detail-item">
                   <label>NovaCoins</label>
-                  <span style={{ color: 'var(--warning)' }}>🪙 {profile?.nova_coins?.toLocaleString() || stats?.novaCoins?.toLocaleString() || 0}</span>
+                  <span style={{ color: 'var(--warning)' }}>🪙 {(stats?.nova_coins ?? profile?.gamification?.nova_coins ?? profile?.nova_coins ?? 0).toLocaleString()}</span>
                 </div>
                 <div className="detail-item">
                   <label>Streak</label>
-                  <span>🔥 {profile?.streak_days || stats?.streakDays || 0} days</span>
+                  <span>🔥 {stats?.streak_days ?? profile?.gamification?.streak_days ?? profile?.streak_days ?? 0} days</span>
                 </div>
               </div>
             </div>
@@ -109,7 +119,7 @@ const UserDetailPanel = ({ userId, onClose }) => {
                   {activity.slice(0, 5).map((act, i) => (
                     <li key={i}>
                       <span className="act-kind">{act.kind || act.type}</span>
-                      <span className="act-time">{fmtDate(act.created_at || act.createdAt)}</span>
+                      <span className="act-time">{fmtDate(act.createdAt || act.created_at)}</span>
                     </li>
                   ))}
                 </ul>
@@ -141,3 +151,4 @@ const UserDetailPanel = ({ userId, onClose }) => {
 };
 
 export default UserDetailPanel;
+
