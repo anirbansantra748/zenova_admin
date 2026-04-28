@@ -223,6 +223,7 @@ const UserManagement = () => {
                       <div className="user-details">
                         <span className="name">{user.full_name}</span>
                         <span className="email">{user.email || user.phone || '—'}</span>
+                        <span className="id" style={{ fontSize: '10px', opacity: 0.4, fontFamily: 'monospace' }}>{user.id}</span>
                       </div>
                     </div>
                   </td>

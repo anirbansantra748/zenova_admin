@@ -69,6 +69,9 @@ const UserDetailPanel = ({ userId, onClose }) => {
               <div className="detail-title">
                 <h2>{profile?.full_name || 'Unknown User'}</h2>
                 <p>{profile?.email || profile?.phone || 'No contact info'}</p>
+                <code className="detail-id-code" style={{ fontSize: '0.75rem', opacity: 0.6, background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: '4px', marginTop: '4px', display: 'inline-block' }}>
+                  ID: {profile?._id || profile?.id || '—'}
+                </code>
                 <div className="detail-badges">
                   {(profile?.roles || []).map(r => (
                     <span key={r.id || r._id || r} className="role-badge">{r.name || r}</span>
