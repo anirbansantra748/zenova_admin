@@ -90,6 +90,7 @@ const Login = () => {
           </button>
         </form>
 
+
         <p className="login-hint">
           Requires <strong>Administrator</strong> or <strong>Moderator</strong> role.
         </p>

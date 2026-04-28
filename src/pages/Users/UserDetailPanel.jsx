@@ -92,6 +92,10 @@ const UserDetailPanel = ({ userId, onClose }) => {
                   <span>{fmtDate(profile?.last_active_at)}</span>
                 </div>
                 <div className="detail-item">
+                  <label>User ID</label>
+                  <span style={{ fontSize: '0.85em', fontFamily: 'monospace' }}>{profile?._id || profile?.id || '—'}</span>
+                </div>
+                <div className="detail-item">
                   <label>Gender</label>
                   <span style={{ textTransform: 'capitalize' }}>{profile?.gender || '—'}</span>
                 </div>

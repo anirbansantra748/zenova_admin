@@ -101,7 +101,12 @@ const Layout = () => {
             <div className="user-profile">
               <div className="user-info">
                 <span className="user-name">{user?.full_name || 'Admin User'}</span>
-                <span className="user-role">{(user?.roles || ['Super Administrator']).join(', ')}</span>
+                <span className="user-role">
+                  {(Array.isArray(user?.roles) 
+                    ? user.roles.map(r => typeof r === 'object' ? r.name : r) 
+                    : [user?.roles || 'Super Administrator']
+                  ).join(', ')}
+                </span>
               </div>
               <div className="user-avatar">{(user?.full_name || 'A').charAt(0).toUpperCase()}</div>
             </div>
