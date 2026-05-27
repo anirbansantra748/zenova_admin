@@ -89,6 +89,11 @@ export const adminApi = {
   listRoles: () => api.get('/admin/roles'),
   listPermissions: () => api.get('/admin/roles/permissions'),
 
+  // Trainer Greetings
+  listTrainerGreetings: (params = {}) => api.get('/admin/trainer-greetings', { params }),
+  createTrainerGreeting: (body) => api.post('/admin/trainer-greetings', body),
+  updateTrainerGreeting: (id, body) => api.put(`/admin/trainer-greetings/${id}`, body),
+
   // System
   systemHealth: () => api.get('/admin/system/health'),
 };
