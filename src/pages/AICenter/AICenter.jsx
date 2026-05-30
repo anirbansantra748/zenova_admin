@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { 
-  Bot, 
-  MessageSquare, 
-  AlertTriangle, 
-  Loader2, 
-  RefreshCw, 
-  ChevronRight, 
-  Shield, 
-  Plus, 
-  ToggleLeft, 
-  ToggleRight, 
-  Edit3 
+import {
+  Bot,
+  MessageSquare,
+  AlertTriangle,
+  Loader2,
+  RefreshCw,
+  ChevronRight,
+  Shield,
+  Plus,
+  ToggleLeft,
+  ToggleRight,
+  Edit3
 } from 'lucide-react';
 import adminApi from '../../utils/api';
 import './AICenter.css';
@@ -21,9 +21,9 @@ const fmtDate = (iso) => {
 };
 
 const SEVERITY_COLOR = {
-  high:   '#ef4444',
+  high: '#ef4444',
   medium: '#f59e0b',
-  low:    '#10b981',
+  low: '#10b981',
 };
 
 const AICenter = () => {
@@ -58,7 +58,7 @@ const AICenter = () => {
       if (ovRes.status === 'fulfilled') setOverview(ovRes.value?.data);
       if (safetyRes.status === 'fulfilled') setSafetyEvents(safetyRes.value?.data?.events || []);
       if (safetyStatsRes.status === 'fulfilled') setSafetyStats(safetyStatsRes.value?.data);
-    } catch (_) {}
+    } catch (_) { }
     setLoading(false);
   };
 
@@ -180,8 +180,8 @@ const AICenter = () => {
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           {activeTab === 'greetings' && (
-            <button 
-              className="primary-btn" 
+            <button
+              className="primary-btn"
               onClick={openCreateGreeting}
               disabled={greetings.length >= 16}
               title={greetings.length >= 16 ? "Maximum limit of 16 trainer cards reached" : "Create a new trainer greeting card"}
@@ -199,13 +199,13 @@ const AICenter = () => {
 
       {/* Tabs */}
       <div className="ai-tabs glass">
-        <button 
+        <button
           className={`ai-tab-btn ${activeTab === 'monitoring' ? 'active' : ''}`}
           onClick={() => setActiveTab('monitoring')}
         >
           Overview & Monitoring
         </button>
-        <button 
+        <button
           className={`ai-tab-btn ${activeTab === 'greetings' ? 'active' : ''}`}
           onClick={() => setActiveTab('greetings')}
         >
@@ -357,7 +357,7 @@ const AICenter = () => {
                       <Bot size={16} />
                       <span>{g.agent}</span>
                     </div>
-                    <button 
+                    <button
                       className="toggle-btn"
                       onClick={() => handleToggleGreeting(g.id || g._id, g.is_active ?? g.isActive)}
                       title="Toggle Active Status"
@@ -399,43 +399,43 @@ const AICenter = () => {
             <form className="send-form" onSubmit={handleCreateOrUpdateGreeting}>
               <div className="send-field">
                 <label>Agent Identifier (lowercase, e.g. calia)</label>
-                <input 
-                  required 
-                  placeholder="e.g. calia" 
-                  value={greetingForm.agent} 
+                <input
+                  required
+                  placeholder="e.g. calia"
+                  value={greetingForm.agent}
                   disabled={!!editGreetingId}
-                  onChange={e => setGreetingForm(f => ({ ...f, agent: e.target.value }))} 
+                  onChange={e => setGreetingForm(f => ({ ...f, agent: e.target.value }))}
                 />
               </div>
               <div className="send-field">
                 <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>Display Name</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {greetingForm.displayName.length} / 30 chars
+                    {greetingForm.displayName.length} / 18 chars
                   </span>
                 </label>
-                <input 
-                  required 
-                  placeholder="e.g. Calia" 
-                  maxLength={30}
-                  value={greetingForm.displayName} 
-                  onChange={e => setGreetingForm(f => ({ ...f, displayName: e.target.value }))} 
+                <input
+                  required
+                  placeholder="e.g. Calia"
+                  maxLength={18}
+                  value={greetingForm.displayName}
+                  onChange={e => setGreetingForm(f => ({ ...f, displayName: e.target.value }))}
                 />
               </div>
               <div className="send-field">
                 <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>Card Message (Greeting text for frontend selection)</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {greetingForm.cardMessage.length} / 30 chars
+                    {greetingForm.cardMessage.length} / 18 chars
                   </span>
                 </label>
-                <textarea 
+                <textarea
                   required
-                  rows={3} 
-                  placeholder="e.g. Ready to train..." 
-                  maxLength={30}
-                  value={greetingForm.cardMessage} 
-                  onChange={e => setGreetingForm(f => ({ ...f, cardMessage: e.target.value }))} 
+                  rows={3}
+                  placeholder="e.g. Ready to train..."
+                  maxLength={18}
+                  value={greetingForm.cardMessage}
+                  onChange={e => setGreetingForm(f => ({ ...f, cardMessage: e.target.value }))}
                 />
               </div>
               {greetingResult && (
