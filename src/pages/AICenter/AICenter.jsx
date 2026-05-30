@@ -411,12 +411,13 @@ const AICenter = () => {
                 <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>Display Name</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {greetingForm.displayName.length} chars
+                    {greetingForm.displayName.length} / 16 chars
                   </span>
                 </label>
                 <input 
                   required 
                   placeholder="e.g. Calia" 
+                  maxLength={16}
                   value={greetingForm.displayName} 
                   onChange={e => setGreetingForm(f => ({ ...f, displayName: e.target.value }))} 
                 />
@@ -425,13 +426,14 @@ const AICenter = () => {
                 <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>Card Message (Greeting text for frontend selection)</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {greetingForm.cardMessage.length} chars
+                    {greetingForm.cardMessage.length} / 16 chars
                   </span>
                 </label>
                 <textarea 
                   required
                   rows={3} 
-                  placeholder="e.g. Ready to train your two day diet plan" 
+                  placeholder="e.g. Ready to train..." 
+                  maxLength={16}
                   value={greetingForm.cardMessage} 
                   onChange={e => setGreetingForm(f => ({ ...f, cardMessage: e.target.value }))} 
                 />
