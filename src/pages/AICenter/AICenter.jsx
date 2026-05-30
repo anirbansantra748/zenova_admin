@@ -180,9 +180,14 @@ const AICenter = () => {
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           {activeTab === 'greetings' && (
-            <button className="primary-btn" onClick={openCreateGreeting}>
+            <button 
+              className="primary-btn" 
+              onClick={openCreateGreeting}
+              disabled={greetings.length >= 16}
+              title={greetings.length >= 16 ? "Maximum limit of 16 trainer cards reached" : "Create a new trainer greeting card"}
+            >
               <Plus size={16} />
-              <span>New Trainer Card</span>
+              <span>New Trainer Card {greetings.length >= 16 ? '(Limit 16 Reached)' : ''}</span>
             </button>
           )}
           <button className="secondary-btn" onClick={handleRefresh}>
@@ -368,7 +373,12 @@ const AICenter = () => {
                     <h3 className="trainer-name">{g.display_name ?? g.displayName}</h3>
                     <p className="trainer-message">"{g.card_message ?? g.cardMessage}"</p>
                   </div>
-                  <div className="card-footer">
+                  <div className="card-footer" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="greeting-lengths" style={{ display: 'flex', gap: '6px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      <span>Name: {g.display_name_length ?? (g.display_name ?? g.displayName ?? '').length}ch</span>
+                      <span>•</span>
+                      <span>Msg: {g.card_message_length ?? (g.card_message ?? g.cardMessage ?? '').length}ch</span>
+                    </div>
                     <button className="edit-btn secondary-btn" onClick={() => openEditGreeting(g)}>
                       <Edit3 size={14} />
                       <span>Edit message</span>
@@ -398,7 +408,12 @@ const AICenter = () => {
                 />
               </div>
               <div className="send-field">
-                <label>Display Name</label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Display Name</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    {greetingForm.displayName.length} chars
+                  </span>
+                </label>
                 <input 
                   required 
                   placeholder="e.g. Calia" 
@@ -407,7 +422,12 @@ const AICenter = () => {
                 />
               </div>
               <div className="send-field">
-                <label>Card Message (Greeting text for frontend selection)</label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Card Message (Greeting text for frontend selection)</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    {greetingForm.cardMessage.length} chars
+                  </span>
+                </label>
                 <textarea 
                   required
                   rows={3} 
