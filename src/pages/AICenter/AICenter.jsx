@@ -44,7 +44,14 @@ const AICenter = () => {
   const [greetingsLoading, setGreetingsLoading] = useState(false);
   const [showGreetingModal, setShowGreetingModal] = useState(false);
   const [editGreetingId, setEditGreetingId] = useState(null);
-  const [greetingForm, setGreetingForm] = useState({ agent: '', displayName: '', cardMessage: '', isActive: true });
+  const [greetingForm, setGreetingForm] = useState({
+    agent: '',
+    displayName: '',
+    cardMessage: '',
+    isActive: true,
+    weeklyCardMessages: ['', '', '', '', '', '', ''],
+    useWeekly: false,
+  });
   const [greetingResult, setGreetingResult] = useState(null);
 
   const fetchData = async () => {
@@ -117,18 +124,29 @@ const AICenter = () => {
   // Trainer card actions
   const openCreateGreeting = () => {
     setEditGreetingId(null);
-    setGreetingForm({ agent: '', displayName: '', cardMessage: '', isActive: true });
+    setGreetingForm({
+      agent: '',
+      displayName: '',
+      cardMessage: '',
+      isActive: true,
+      weeklyCardMessages: ['', '', '', '', '', '', ''],
+      useWeekly: false,
+    });
     setShowGreetingModal(true);
     setGreetingResult(null);
   };
 
   const openEditGreeting = (g) => {
     setEditGreetingId(g.id || g._id);
+    const weeklyMsgs = g.weekly_card_messages ?? g.weeklyCardMessages ?? [];
+    const hasWeekly = Array.isArray(weeklyMsgs) && weeklyMsgs.length === 7;
     setGreetingForm({
       agent: g.agent || '',
       displayName: g.display_name ?? g.displayName ?? '',
       cardMessage: g.card_message ?? g.cardMessage ?? '',
-      isActive: g.is_active ?? g.isActive ?? true
+      isActive: g.is_active ?? g.isActive ?? true,
+      weeklyCardMessages: hasWeekly ? [...weeklyMsgs] : ['', '', '', '', '', '', ''],
+      useWeekly: hasWeekly,
     });
     setShowGreetingModal(true);
     setGreetingResult(null);
@@ -137,17 +155,18 @@ const AICenter = () => {
   const handleCreateOrUpdateGreeting = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        displayName: greetingForm.displayName,
+        cardMessage: greetingForm.cardMessage,
+        weeklyCardMessages: greetingForm.useWeekly ? greetingForm.weeklyCardMessages : [],
+      };
       if (editGreetingId) {
-        await adminApi.updateTrainerGreeting(editGreetingId, {
-          displayName: greetingForm.displayName,
-          cardMessage: greetingForm.cardMessage,
-        });
-        setGreetingResult({ success: true, message: 'Card message updated successfully!' });
+        await adminApi.updateTrainerGreeting(editGreetingId, payload);
+        setGreetingResult({ success: true, message: 'Trainer greeting updated successfully!' });
       } else {
         await adminApi.createTrainerGreeting({
+          ...payload,
           agent: greetingForm.agent,
-          displayName: greetingForm.displayName,
-          cardMessage: greetingForm.cardMessage,
           isActive: true,
         });
         setGreetingResult({ success: true, message: 'Trainer card created successfully!' });
@@ -372,6 +391,11 @@ const AICenter = () => {
                   <div className="card-body">
                     <h3 className="trainer-name">{g.display_name ?? g.displayName}</h3>
                     <p className="trainer-message">"{g.card_message ?? g.cardMessage}"</p>
+                    {((g.weekly_card_messages ?? g.weeklyCardMessages)?.length === 7) && (
+                      <div className="weekly-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#10b981', marginTop: '8px', padding: '2px 6px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '4px', fontWeight: 500 }}>
+                        📅 7-Day Schedule Active
+                      </div>
+                    )}
                   </div>
                   <div className="card-footer" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     <div className="greeting-lengths" style={{ display: 'flex', gap: '6px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -422,22 +446,61 @@ const AICenter = () => {
                   onChange={e => setGreetingForm(f => ({ ...f, displayName: e.target.value }))}
                 />
               </div>
-              <div className="send-field">
-                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>Card Message (Greeting text for frontend selection)</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {greetingForm.cardMessage.length} / 18 chars
-                  </span>
-                </label>
-                <textarea
-                  required
-                  rows={3}
-                  placeholder="e.g. Ready to train..."
-                  maxLength={18}
-                  value={greetingForm.cardMessage}
-                  onChange={e => setGreetingForm(f => ({ ...f, cardMessage: e.target.value }))}
+              <div className="send-field" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <input
+                  type="checkbox"
+                  id="useWeekly"
+                  checked={greetingForm.useWeekly}
+                  onChange={e => setGreetingForm(f => ({ ...f, useWeekly: e.target.checked }))}
+                  style={{ width: 'auto', margin: 0 }}
                 />
+                <label htmlFor="useWeekly" style={{ margin: 0, cursor: 'pointer', fontWeight: 500 }}>
+                  Enable Weekly 7-Day Rotation Schedule
+                </label>
               </div>
+
+              {!greetingForm.useWeekly ? (
+                <div className="send-field">
+                  <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>Card Message (Default greeting)</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      {(greetingForm.cardMessage || '').length} / 18 chars
+                    </span>
+                  </label>
+                  <textarea
+                    required={!greetingForm.useWeekly}
+                    rows={3}
+                    placeholder="e.g. Ready to train..."
+                    maxLength={18}
+                    value={greetingForm.cardMessage}
+                    onChange={e => setGreetingForm(f => ({ ...f, cardMessage: e.target.value }))}
+                  />
+                </div>
+              ) : (
+                <div className="weekly-fields" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px', maxHeight: '300px', overflowY: 'auto', paddingRight: '4px' }}>
+                  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, idx) => (
+                    <div key={day} className="send-field" style={{ marginBottom: 0 }}>
+                      <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span>{day} Message</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                          {(greetingForm.weeklyCardMessages[idx] || '').length} / 18 chars
+                        </span>
+                      </label>
+                      <input
+                        required={greetingForm.useWeekly}
+                        placeholder={`Greeting for ${day}`}
+                        maxLength={18}
+                        value={greetingForm.weeklyCardMessages[idx] || ''}
+                        onChange={e => {
+                          const updated = [...greetingForm.weeklyCardMessages];
+                          updated[idx] = e.target.value;
+                          setGreetingForm(f => ({ ...f, weeklyCardMessages: updated }));
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
               {greetingResult && (
                 <div className={`send-result ${greetingResult.success ? 'success' : 'error'}`}>
                   {greetingResult.success ? `✅ ${greetingResult.message}` : `⚠️ ${greetingResult.message}`}
