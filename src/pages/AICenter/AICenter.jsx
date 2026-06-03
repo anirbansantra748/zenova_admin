@@ -157,7 +157,7 @@ const AICenter = () => {
     try {
       const payload = {
         displayName: greetingForm.displayName,
-        cardMessage: greetingForm.cardMessage,
+        cardMessage: greetingForm.useWeekly ? greetingForm.weeklyCardMessages[0] : greetingForm.cardMessage,
         weeklyCardMessages: greetingForm.useWeekly ? greetingForm.weeklyCardMessages : [],
       };
       if (editGreetingId) {
