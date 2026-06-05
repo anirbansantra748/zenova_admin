@@ -84,6 +84,7 @@ export const adminApi = {
   createQuest: (body) => api.post('/admin/quests', body),
   updateQuest: (questId, body) => api.patch(`/admin/quests/${questId}`, body),
   toggleQuest: (questId, isActive) => api.patch(`/admin/quests/${questId}/toggle`, { isActive }),
+  deleteQuest: (questId) => api.delete(`/admin/quests/${questId}`),
 
   // Roles
   listRoles: () => api.get('/admin/roles'),

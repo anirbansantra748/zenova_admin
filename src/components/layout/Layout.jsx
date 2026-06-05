@@ -12,7 +12,8 @@ import {
   LogOut,
   Search,
   ChevronRight,
-  ClipboardList
+  ClipboardList,
+  ScrollText
 } from 'lucide-react';
 import adminApi from '../../utils/api';
 import './Layout.css';
@@ -70,6 +71,7 @@ const Layout = () => {
             <p className="group-title">PLATFORM</p>
             <SidebarLink to="/notifications" icon={Bell} label="Notifications" />
             <SidebarLink to="/gamification" icon={Trophy} label="Gamification" />
+            <SidebarLink to="/quests" icon={ScrollText} label="Quests" />
             <SidebarLink to="/ai" icon={Cpu} label="AI Center" />
           </div>
 

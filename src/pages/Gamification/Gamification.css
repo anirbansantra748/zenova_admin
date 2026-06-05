@@ -185,3 +185,117 @@
 @media (max-width: 900px) {
   .eco-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── Quests Summary Widget ──────────────────────────────────────────────── */
+.quests-summary-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.quests-manage-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 20px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.quests-manage-link:hover {
+  background: rgba(139,92,246,0.08);
+  border-color: var(--primary);
+}
+
+.quests-summary-grid {
+  display: flex;
+  gap: 32px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.qs-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qs-count {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.qs-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.qs-preview-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.qs-preview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s;
+}
+
+.qs-preview-row:last-child { border-bottom: none; }
+.qs-preview-row:hover { background: rgba(255,255,255,0.02); }
+
+.qs-preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.qs-preview-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.qs-preview-cat {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.qs-more-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  text-align: left;
+  transition: opacity 0.2s;
+}
+
+.qs-more-btn:hover { opacity: 0.75; }
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+

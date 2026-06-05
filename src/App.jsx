@@ -10,6 +10,7 @@ import AICenter from './pages/AICenter/AICenter';
 import Roles from './pages/Roles/Roles';
 import SystemHealth from './pages/SystemHealth/SystemHealth';
 import AuditLogs from './pages/AuditLogs/AuditLogs';
+import Quests from './pages/Quests/Quests';
 
 // Auth guard — redirect to /login if no token
 const PrivateRoute = ({ children }) => {
@@ -39,6 +40,7 @@ function App() {
           <Route path="analytics"     element={<Analytics />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="gamification"  element={<Gamification />} />
+          <Route path="quests"        element={<Quests />} />
           <Route path="ai"            element={<AICenter />} />
           <Route path="roles"         element={<Roles />} />
           <Route path="system"        element={<SystemHealth />} />
